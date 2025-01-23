@@ -2,12 +2,12 @@ terraform {
   required_version = ">= 1.10"
 }
 
-resource "vultr_dns_domain" "ppanda" {
+resource "vultr_dns_domain" "root" {
   domain = "ppanda.org"
 }
 
 locals {
-  offworld_hostname = "offworld.${vultr_dns_domain.ppanda.domain}"
+  offworld_hostname = "offworld.${vultr_dns_domain.root.domain}"
 }
 
 module "vultr_offworld_instance" {
@@ -24,6 +24,6 @@ module "vultr_offworld_instance" {
   ssh_admin_key_label = "offworld-admin-ssh-key"
   ssh_admin_key       = var.admin_ssh_key
 
-  vultr_dns_domain_id = vultr_dns_domain.ppanda.id
+  vultr_dns_domain_id = vultr_dns_domain.root.id
   vultr_api_key       = var.vultr_api_key
 }
