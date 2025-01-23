@@ -1,5 +1,4 @@
 #!/bin/sh
-#
 # Author: Yuzhou "Joe" Mo (@yuzhoumo)
 # License: MIT
 
