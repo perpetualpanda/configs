@@ -1,4 +1,4 @@
-.PHONY: init format dryrun deploy
+.PHONY: init format dryrun deploy destroy
 
 init:
 	terraform -chdir=./terraform init
@@ -11,3 +11,6 @@ dryrun:
 
 deploy:
 	terraform -chdir=./terraform apply
+
+destroy:
+	terraform -chdir=./terraform destroy
