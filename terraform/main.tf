@@ -1,5 +1,13 @@
 terraform {
   required_version = ">= 1.10"
+
+  backend "remote" {
+    organization = "perpetualpanda"
+
+    workspaces {
+      name = "infra"
+    }
+  }
 }
 
 resource "vultr_dns_domain" "root" {
