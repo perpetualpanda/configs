@@ -13,9 +13,6 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-    env:
-      TF_VAR_admin_ssh_key: ${{ secrets.SSH_ADMIN_PUBKEY }}
-      TF_VAR_vultr_api_key: ${{ secrets.VULTR_API_KEY }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -35,7 +32,10 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform -chdir=./terraform init
+      run: |
+        terraform -chdir=./terraform init \
+          -var='admin_ssh_key=${{ secrets.SSH_ADMIN_PUBKEY }}' \
+          -var='vultr_api_key=${{ secrets.VULTR_API_KEY }}'
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
