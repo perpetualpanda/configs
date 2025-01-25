@@ -33,7 +33,7 @@ jobs:
     # Create tfvars file
     - name: Create Terraform variables file
       run: |
-        cat > ./terraform/terraform.tfvars << EOF
+        cat > ./terraform/terraform.auto.tfvars << EOF
         admin_ssh_key = "${{ secrets.SSH_ADMIN_PUBKEY }}"
         vultr_api_key = "${{ secrets.VULTR_API_KEY }}"
         EOF
@@ -48,10 +48,10 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform -chdir=./terraform plan -input=false -var-file=terraform.tfvars
+      run: terraform -chdir=./terraform plan -input=false
 
     # On push to "main", build or change infrastructure according to Terraform configuration files
     # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform -chdir=./terraform apply -auto-approve -input=false -var-file=terraform.tfvars
+      run: terraform -chdir=./terraform apply -auto-approve -input=false
