@@ -32,10 +32,7 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: |
-        terraform -chdir=./terraform init \
-          -backend-config='admin_ssh_key=${{ secrets.SSH_ADMIN_PUBKEY }}' \
-          -backend-config='vultr_api_key=${{ secrets.VULTR_API_KEY }}'
+      run: terraform -chdir=./terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
