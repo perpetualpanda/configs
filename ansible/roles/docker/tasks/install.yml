@@ -1,0 +1,8 @@
+---
+- name: Ensure Docker and related packages are installed
+  ansible.builtin.package:
+    name:
+      - docker
+      - docker-cli-compose
+    state: latest
+    update_cache: true

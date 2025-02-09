@@ -1,0 +1,17 @@
+---
+# Installation options
+tailscale_uninstall: false
+tailscale_authkey: ""
+tailscale_tags: []
+
+# Certificate options
+tailscale_cert_enabled: false
+tailscale_cert_caddy_user_permission: false
+tailscale_cert_domain: ""
+tailscale_cert_dir: "/usr/local/etc/ssl/certs"
+tailscale_cert_filename: "{{ tailscale_cert_domain }}.crt"
+tailscale_cert_private_key_dir: "/usr/local/etc/ssl/private"
+tailscale_cert_private_key_filename: "{{ tailscale_cert_domain }}.key"
+
+# Debug
+insecurely_log_authkey: false

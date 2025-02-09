@@ -1,0 +1,8 @@
+---
+- name: Set up offworld vm
+  hosts: vultr
+  become: true
+  gather_facts: no
+  roles:
+    - docker
+    - tailscale
