@@ -15,9 +15,9 @@ module "vultr_instance_offworld" {
   source = "github.com/perpetualpanda/tf-modules/vultr-vm"
 
   vm_hostname = local.offworld_hostname
-  vm_os_id    = "2076"            # alpine linux
-  vm_plan     = "vc2-1c-0.5gb-v6" # lowest spec plan
-  vm_region   = "ewr"             # plan available in new york region
+  vm_os_id    = "2076"         # alpine linux
+  vm_plan     = "vc2-1c-0.5gb" # low spec plan
+  vm_region   = "ewr"          # plan available in new jersey region
 
   block_storage_label = "offworld-block-storage"
   block_storage_gb    = 1
