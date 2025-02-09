@@ -1,0 +1,5 @@
+---
+- name: Restart tailscale
+  ansible.builtin.service:
+    name: tailscale
+    state: restarted

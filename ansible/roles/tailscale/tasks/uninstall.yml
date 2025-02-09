@@ -1,0 +1,36 @@
+---
+- name: Check if tailscale is connected
+  ansible.builtin.command: tailscale status
+  changed_when: false
+  failed_when: false
+  register: tailscale_status
+
+- name: De-register tailscale node
+  become: true
+  # Hack to get correct changed/ok status
+  ansible.builtin.shell: tailscale status; tailscale logout
+  register: tailscale_logout
+  changed_when: "'Logged out.' not in tailscale_status.stdout and 'not logged in' not in tailscale_status.stdout"
+  when:
+    # [Errno 2] No such file or directory: 'tailscale'
+    - tailscale_status.rc != 2
+    # "bash: tailscale: command not found"
+    - tailscale_status.rc != 127
+
+- name: Disable tailscale service
+  become: true
+  ansible.builtin.service:
+    name: tailscale
+    state: stopped
+    enabled: false
+
+- name: Remove tailscale state and logs
+  become: true
+  ansible.builtin.file:
+    path: "/var/lib/tailscale"
+    state: absent
+
+- name: Uninstall tailscale package
+  ansible.builtin.package:
+    name: tailscale
+    state: absent

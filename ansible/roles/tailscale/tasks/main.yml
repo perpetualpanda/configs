@@ -1,0 +1,21 @@
+---
+- name: Include uninstall.yml
+  include_tasks: uninstall.yml
+  when: tailscale_uninstall | bool
+
+- name: Include install.yml
+  include_tasks: install.yml
+  when: not tailscale_uninstall | bool
+
+- name: Include service.yml
+  include_tasks: service.yml
+  when: not tailscale_uninstall | bool
+
+# if /etc/default/tailscaled was modified, run 'restart tailscaled' handler
+# before running `tailscale cert` command
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Include certificates.yml
+  include_tasks: certificates.yml
+  when: not tailscale_uninstall | bool and tailscale_cert_enabled | bool

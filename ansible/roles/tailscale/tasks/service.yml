@@ -1,0 +1,38 @@
+---
+- name: Enable tailscale daemon
+  become: true
+  ansible.builtin.service:
+    name: tailscale
+    state: started
+    enabled: true
+
+- name: Check tailscale status
+  ansible.builtin.command: tailscale status
+  register: tailscale_status
+  changed_when: false
+  ignore_errors: true
+
+- name: Assert that tailscale_authkey is not empty
+  ansible.builtin.assert:
+    that:
+      - tailscale_authkey | length > 0
+    quiet: true
+
+- name: Prepend 'tag:' to each item in the list
+  ansible.builtin.set_fact:
+    tailscale_prepared_tags: "{{ tailscale_tags | map('regex_replace', '^', 'tag:') | list }}"
+
+- name: Build tailscale tag args
+  ansible.builtin.set_fact:
+    tailscale_tags_string: >-
+      {% if tailscale_tags | length > 0 %}
+      --advertise-tags={{ tailscale_prepared_tags | join(',') }}
+      {% endif %}
+
+- name: Authenticate tailscale
+  ansible.builtin.command: >
+    tailscale up
+      {{ tailscale_tags_string | trim if tailscale_tags_string is not none else '' }}
+      --authkey="{{ tailscale_authkey }}"
+  no_log: "{{ not (insecurely_log_authkey | bool) }}"
+  when: tailscale_status.rc != 0

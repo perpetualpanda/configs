@@ -1,0 +1,13 @@
+---
+- name: Add community tailscale source for alpine
+  ansible.builtin.lineinfile:
+    dest: /etc/apk/repositories
+    regexp: "^http://dl-2\\.alpinelinux\\.org/alpine/edge/community.*"
+    line: "http://dl-2.alpinelinux.org/alpine/edge/community"
+    state: present
+
+- name: Install tailscale
+  ansible.builtin.package:
+    name: tailscale
+    state: latest
+    update_cache: yes
