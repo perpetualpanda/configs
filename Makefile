@@ -6,10 +6,10 @@ init:
 format:
 	terraform fmt --recursive ./terraform
 
-dryrun:
+plan:
 	terraform -chdir=./terraform plan
 
-deploy:
+apply:
 	terraform -chdir=./terraform apply
 
 destroy:
