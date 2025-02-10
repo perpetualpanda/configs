@@ -1,0 +1,26 @@
+---
+- name: Copy caddy to the server
+  ansible.builtin.copy:
+    src: "./files/caddy"
+    dest: "/root/app"
+    mode: "0644"
+
+- name: Copy uptime-kuma the server
+  ansible.builtin.copy:
+    src: "./files/uptime-kuma"
+    dest: "/root/app"
+    mode: "0644"
+
+- name: Create docker network
+  ansible.builtin.command: >
+    docker network create proxy-network
+  failed_when: false
+  become: true
+
+- name: Run docker-compose up for Caddy and Uptime Kuma
+  ansible.builtin.command: >
+    docker compose
+      -f "/root/app/caddy/docker-compose.yml"
+      -f "/root/app/uptime-kuma/docker-compose.yml"
+      up -d
+  become: true
