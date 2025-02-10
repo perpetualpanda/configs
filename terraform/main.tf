@@ -3,18 +3,17 @@
 ###################
 
 locals {
-  root_domain        = "ppanda.org"
-  offworld_hostname  = "offworld.${local.root_domain}"
+  root_domain = "ppanda.org"
 }
 
-####################
-# Virtual Machines #
-####################
+#########
+# Hosts #
+#########
 
-module "vultr_instance_offworld" {
+module "host_offworld" {
   source = "./modules/vultr-vm"
 
-  vm_hostname = local.offworld_hostname
+  vm_hostname = "offworld.${local.root_domain}"
   vm_os_id    = "2076"         # alpine linux
   vm_plan     = "vc2-1c-0.5gb" # low spec plan
   vm_region   = "ewr"          # plan available in new jersey region
