@@ -4,5 +4,7 @@
     name:
       - docker
       - docker-cli-compose
+      - linux-virt
+      - linux-virt-dev
     state: latest
     update_cache: true
