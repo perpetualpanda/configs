@@ -6,12 +6,6 @@
     state: started
     enabled: true
 
-- name: Check tailscale status
-  ansible.builtin.command: tailscale status
-  register: tailscale_status
-  changed_when: false
-  ignore_errors: true
-
 - name: Assert that tailscale_authkey is not empty
   ansible.builtin.assert:
     that:
@@ -35,4 +29,3 @@
       {{ tailscale_tags_string | trim if tailscale_tags_string is not none else '' }}
       --authkey="{{ tailscale_authkey }}"
   no_log: "{{ not (insecurely_log_authkey | bool) }}"
-  when: tailscale_status.rc != 0
