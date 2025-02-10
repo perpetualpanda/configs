@@ -13,24 +13,24 @@ resource "vultr_dns_domain" "root" {
 resource "vultr_dns_record" "nas" {
   domain = vultr_dns_domain.root.id
   name   = "nas"
-  type   = "CNAME"
-  data   = local.offworld_hostname
+  type   = "A"
+  data   = module.host_offworld.main_ip
   ttl    = 300
 }
 
 resource "vultr_dns_record" "status" {
   domain = vultr_dns_domain.root.id
   name   = "status"
-  type   = "CNAME"
-  data   = local.offworld_hostname
+  type   = "A"
+  data   = module.host_offworld.main_ip
   ttl    = 300
 }
 
 resource "vultr_dns_record" "sync" {
   domain = vultr_dns_domain.root.id
   name   = "sync"
-  type   = "CNAME"
-  data   = local.offworld_hostname
+  type   = "A"
+  data   = module.host_offworld.main_ip
   ttl    = 300
 }
 
