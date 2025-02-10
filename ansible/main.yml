@@ -1,6 +1,6 @@
 ---
 - name: Set up offworld vm
-  hosts: vultr
+  hosts: offworld.ppanda.org
   become: true
   gather_facts: no
   roles:
