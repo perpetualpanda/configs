@@ -6,10 +6,16 @@
     line: "http://dl-2.alpinelinux.org/alpine/edge/community"
     state: present
 
-- name: Install dhclient and tailscale
+# https://tailscale.com/kb/1188/linux-dns#dhcp-dhclient-overwriting-etcresolvconf
+- name: Disable overwriting resolv.conf
+  ansible.builtin.lineinfile:
+    dest: /etc/udhcpc/udhcpc.conf
+    regexp: "^#?RESOLV_CONF=\"no\""
+    line: "RESOLV_CONF=\"no\""
+    state: present
+
+- name: Install tailscale
   ansible.builtin.package:
-    name:
-      - dhclient  # https://tailscale.com/kb/1188/linux-dns#dhcp-dhclient-overwriting-etcresolvconf
-      - tailscale
+    name: tailscale
     state: latest
     update_cache: yes
