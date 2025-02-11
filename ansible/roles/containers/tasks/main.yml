@@ -17,10 +17,14 @@
   failed_when: false
   become: true
 
-- name: Run docker-compose up for Caddy and Uptime Kuma
-  ansible.builtin.command: >
-    docker compose
-      -f "/root/app/caddy/docker-compose.yml"
-      -f "/root/app/uptime-kuma/docker-compose.yml"
-      up -d
+- name: Run docker-compose up for Caddy
+  ansible.builtin.command: docker compose up -d
+  args:
+    chdir: /root/app/caddy
+  become: true
+
+- name: Run docker-compose up for Uptime Kuma
+  ansible.builtin.command: docker compose up -d
+  args:
+    chdir: /root/app/uptime-kuma
   become: true
