@@ -2,8 +2,6 @@ nas.ppanda.org:443 {
     reverse_proxy https://denabase.scorpion-galaxy.ts.net:5001 {
         header_up Host {upstream_hostport}
         transport http {
-            # NOTE: We can safely skip this since it's within
-            # the tailnet. Do not use for public domains!
             tls_insecure_skip_verify
         }
     }
