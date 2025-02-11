@@ -6,8 +6,10 @@
     line: "http://dl-2.alpinelinux.org/alpine/edge/community"
     state: present
 
-- name: Install tailscale
+- name: Install dhclient and tailscale
   ansible.builtin.package:
-    name: tailscale
+    name:
+      - dhclient  # https://tailscale.com/kb/1188/linux-dns#dhcp-dhclient-overwriting-etcresolvconf
+      - tailscale
     state: latest
     update_cache: yes
